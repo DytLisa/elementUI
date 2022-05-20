@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- 按钮 -->
+    <!-- 
+        visible指的是属性绑定，表示弹框的显示隐藏，
+        当:visible的值为ture的时候，弹框显示，当为false的时候，弹框隐藏
+
+        后面的.sync:指的就是同步动态双向的来表示visible的值，
+        当关闭窗口的时候，这个弹框隐藏了，visible的值发生了变化，
+        但是关闭窗口这个动作，我们没法用确定的动作去判断这个值，
+        所以用到了vue中的双向绑定的原则，在vue中统一加上了.sync来表示同步的修改了visible的值。
+
+     -->
+    <el-row>
+      <el-button>默认按钮</el-button>
+      <el-button @click="open" type="primary">主要按钮</el-button>
+      <el-button type="success">成功按钮</el-button>
+      <el-button type="info">信息按钮</el-button>
+      <el-button type="warning">警告按钮</el-button>
+      <el-button type="danger">危险按钮</el-button>
+    </el-row>
+    <!-- 设置弹框的显示与隐藏 -->
+    <el-dialog :visible.sync="visible" title="Hello world">
+      <p>Try Element</p>
+    </el-dialog>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  Vue.config.productionTip= false
+  new Vue({
+    el: '#app',
+    data: function () {
+      return { visible: false }
+    },
+    methods: {
+      open:function() {
+        this.visible = true
+      }
+    }
+  })
+</script>
+
+</html>
