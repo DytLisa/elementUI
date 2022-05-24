@@ -15,23 +15,45 @@ VueRouter.prototype.push = function (location, onComplete, onAbort) {
 const routes = [
     {
         path: '/',
-        name: 'vueMain',
+        name: 'Main',
         // component:Home
         component: () => import('../views/Main.vue'),
+        redirect:'home',
         children:[
-            {
-                path:'/home',
-                name:'homeName',
-                component:()=>import('../views/home')
-            },
-            {
-                path:'/user',
-                name:'userName',
-                component:()=>import('../views/User')
-            }
+            // {
+            //     path:'/home',
+            //     name:'home',
+            //     component:()=>import('../views/home')
+            // },
+            // {
+            //     path:'/user',
+            //     name:'user',
+            //     component:()=>import('../views/User')
+            // },
+            // {
+            //     path:'/mall',
+            //     name:'mall',
+            //     component:()=>import('../views/mall')
+            // },
+            // {
+            //     path:'/page1',
+            //     name:'page1',
+            //     component:()=>import('../views/other/pageOne.vue')
+            // },
+            // {
+            //     path:'/page2',
+            //     name:'page2',
+            //     component:()=>import('../views/other/pageTwo.vue')
+            // }
         ]
     },
+    {
+        path:'/login',
+        name:'login',
+        component:()=>import('../views/login/login.vue')
+    }
 ]
+
 const router = new VueRouter({
     mode: 'history',
     routes

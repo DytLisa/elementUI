@@ -9,7 +9,7 @@
     @close="handleClose"
     :collapse="isCollapse"
   >
-    <h3>通用后台管理系统</h3>
+    <h3>{{isCollapse ?'后台':'通用后台管理系统'}}</h3>
     <!-- 没有子菜单 -->
     <el-menu-item
       v-for="item in noChildren"
@@ -30,7 +30,7 @@
         v-for="(subItem,subIndex) in item.children"
         :key="subItem.path"
       >
-        <el-menu-item :index="subIndex.toString()">{{ subItem.label }}</el-menu-item>
+        <el-menu-item @click="clickMenu(subItem)" :index="subIndex.toString()">{{ subItem.label }}</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
@@ -55,50 +55,51 @@
 export default {
   data() {
     return {
-      isCollapse: false, //是否水平折叠收起菜单（仅在导航栏 mode 为 vertical 时可用），值为true 或 false
-      menu: [
-        {
-          path: "/",
-          name: "homeName",
-          label: "首页",
-          icon: "s-home",
-          url: "Home/Home",
-        },
-        {
-          path: "/mall",
-          name: "mallName",
-          label: "商品管理",
-          icon: "video-play",
-          url: "MallManage/MallManage",
-        },
-        {
-          path: "/user",
-          name: "userName",
-          label: "用户管理",
-          icon: "user",
-          url: "UserManage/UserManage",
-        },
-        {
-          label: "其他",
-          icon: "location",
-          children: [
-            {
-              path: "/page1",
-              name: "page1Name",
-              label: "页面1",
-              icon: "setting",
-              url: "Other/PageOne",
-            },
-            {
-              path: "/page2",
-              name: "page2Name",
-              label: "页面2",
-              icon: "setting",
-              url: "Other/PageTwo",
-            },
-          ],
-        },
-      ],
+      // isCollapse: false, //是否水平折叠收起菜单（仅在导航栏 mode 为 vertical 时可用），值为true 或 false
+      menu:[]
+      // menu: [
+      //   {
+      //     path: "/",
+      //     name: "home",
+      //     label: "首页",
+      //     icon: "s-home",
+      //     url: "Home/Home",
+      //   },
+      //   {
+      //     path: "/mall",
+      //     name: "mall",
+      //     label: "商品管理",
+      //     icon: "video-play",
+      //     url: "MallManage/MallManage",
+      //   },
+      //   {
+      //     path: "/user",
+      //     name: "user",
+      //     label: "用户管理",
+      //     icon: "user",
+      //     url: "UserManage/UserManage",
+      //   },
+      //   {
+      //     label: "其他",
+      //     icon: "location",
+      //     children: [
+      //       {
+      //         path: "/page1",
+      //         name: "page1",
+      //         label: "页面1",
+      //         icon: "setting",
+      //         url: "Other/PageOne",
+      //       },
+      //       {
+      //         path: "/page2",
+      //         name: "page2",
+      //         label: "页面2",
+      //         icon: "setting",
+      //         url: "Other/PageTwo",
+      //       },
+      //     ],
+      //   },
+      // ],
     };
   },
   methods: {
@@ -112,17 +113,24 @@ export default {
       this.$router.push({
         name: item.name,
       });
+      this.$store.commit('selectMenu',item)
     },
   },
   // computed用来监控自己定义的变量，该变量不在data里面声明，
   // 直接在computed里面定义，然后就可以在页面上进行双向数据绑定展示出结果或者用作其他处理
   computed: {
     noChildren() {
-      return this.menu.filter((item) => !item.children);
+      return this.asyncMenu.filter((item) => !item.children);
     },
     hasChildren() {
-      return this.menu.filter((item) => item.children);
+      return this.asyncMenu.filter((item) => item.children);
     },
+    isCollapse(){
+      return this.$store.state.tab.isCollapse
+    },
+    asyncMenu(){
+      return this.$store.state.tab.menu
+    }
   },
 };
 </script>
